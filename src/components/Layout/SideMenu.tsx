@@ -5,10 +5,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BiBox, BiCodeBlock, BiHomeAlt, BiLeftArrowAlt, BiStore } from 'react-icons/bi'
 import { IoIosSettings } from 'react-icons/io'
 
-// import SelectWorkspaceSideMenu from './SelectWorkspaceSideMenu'
-// import PlanBadge from './PlanBadge'
-// import { logout } from '../../actions/auth';
-
 const { SubMenu } = Menu
 
 interface SideMenuProps {
@@ -23,19 +19,8 @@ export default function SideMenu({ closeMenu }: SideMenuProps) {
   const dispatch = useDispatch()
   const [showBookingBadge, setShowBookingBadge] = useState(false)
 
-  // useEffect(() => {
-  //   if (user.businessAccess?.length > 0 && !user.hasFirstBookingCreated) {
-  //     setShowBookingBadge(true)
-  //   }
-  // }, [user])
-
-  // const onSignOutClick = async () => {
-  //   dispatch(logout())
-  // }
-
   const pages = [
     { title: 'Home', icon: <BiHomeAlt size={20} />, href: '/' },
-    { title: 'Store', icon: <BiStore size={20} />, href: '/accounts' },
     {
       title: <Space>Registros<Badge dot={showBookingBadge} /></Space>,
       icon: <BiBox size={20} />,
@@ -50,15 +35,6 @@ export default function SideMenu({ closeMenu }: SideMenuProps) {
       ]
     }
   ]
-  // const getSelectedKeys = () => {
-  //   const selectedKeys = [location.pathname]
-  //   if (location.pathname.includes('/[')) {
-  //     selectedKeys.push(location.pathname.split('/[')[0])
-  //   } else if (location.pathname.split('/').length > 3) {
-  //     selectedKeys.push(`/${location.pathname.split('/')[1]}/${location.pathname.split('/')[2]}`)
-  //   }
-  //   return selectedKeys
-  // }
 
   return (
     <Menu

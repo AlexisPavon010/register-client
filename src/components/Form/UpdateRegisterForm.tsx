@@ -10,7 +10,7 @@ import {
     notification,
 } from 'antd';
 import createRegister from '../../api/createRegister';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { updateRegister } from '../../api/updateRegister';
 import { getRegisterById } from '../../api/getRegisterById';
 
@@ -76,16 +76,16 @@ const tailFormItemLayout = {
 
 export const UpdateRegisterForm = () => {
     const [loading, setLoading] = useState(false)
-    const [data, setData] = useState<any>(null)
     const [form] = Form.useForm();
     const params = useParams()
+    const navigate = useNavigate()
 
     useEffect(() => {
         getRegisterById(params.id)
-            .then(({ data }) => setData(data))
-            .catch()
+            .then(({ data }) => form.setFieldsValue(data))
+            .catch(console.log)
             .finally()
-    }, [])
+    }, [params.id])
 
 
     const onFinish = (values: any) => {
@@ -94,13 +94,14 @@ export const UpdateRegisterForm = () => {
             notification.success({
                 message: 'Registro Actualizado'
             })
+            navigate('/')
         }).catch(() => {
             setLoading(false)
             notification.error({
                 message: 'Error'
             })
         }).finally(() => setLoading(false))
-        
+
     };
 
     const prefixSelector = (
@@ -136,7 +137,6 @@ export const UpdateRegisterForm = () => {
                 form={form}
                 name="register"
                 onFinish={onFinish}
-                initialValues={data}
                 scrollToFirstError
             >
                 <Form.Item
@@ -172,35 +172,6 @@ export const UpdateRegisterForm = () => {
                     <Input />
                 </Form.Item>
 
-
-                <Form.Item
-                    name="residence"
-                    label="Habitual Residence"
-                    rules={[
-                        { type: 'array', required: true, message: 'Please select your habitual residence!' },
-                    ]}
-                >
-                    <Cascader options={residences} />
-                </Form.Item>
-
-                <Form.Item
-                    name="phone"
-                    label="Phone Number"
-                    rules={[{ required: true, message: 'Please input your phone number!' }]}
-                >
-                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-                </Form.Item>
-
-                <Form.Item
-                    name="website"
-                    label="Website"
-                    rules={[{ required: true, message: 'Please input website!' }]}
-                >
-                    <AutoComplete options={websiteOptions} onChange={onWebsiteChange} placeholder="website">
-                        <Input />
-                    </AutoComplete>
-                </Form.Item>
-
                 <Form.Item
                     name="description"
                     label="Descripcion"
@@ -223,7 +194,7 @@ export const UpdateRegisterForm = () => {
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit" loading={loading}>
-                        Register
+                        Update
                     </Button>
                 </Form.Item>
             </Form>
